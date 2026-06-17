@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BENEDETTI INGEGNERIA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text-dark: #1a1a1a;    /* Grigio antracite */
+            --text-muted: #7e7e7e;   /* Grigio medio */
+            --light-gray: #f6f6f6;   /* Grigio chiaro */
+            --brand: #800020;        /* Bordeaux istituzionale */
+            --border: #e2e2e2;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body, html {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Contenitore orizzontale per il flusso delle 5 pagine */
+        .web-deck {
+            display: flex;
+            width: 500vw;
+            height: 100vh;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .web-page {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.98);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .web-page.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- COPERTINA: SOLO LOGO --- */
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-img {
+            max-width: 420px;
+            width: 90%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* --- STRUTTURA DELLE SCHEDE INFORMATIVE --- */
+        .presentation-grid {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .section-meta {
+            font-size: 0.55rem;
+            color: var(--brand);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            border-bottom: 1px solid var(--brand);
+            padding-bottom: 4px;
+        }
+
+        /* Tabelle e testi miniaturizzati */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: -6px;
+        }
+
+        .info-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.72rem;
+            vertical-align: top;
+        }
+
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .info-table td.label {
+            width: 120px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.58rem;
+            font-weight: 500;
+            padding-top: 14px;
+        }
+
+        .mono {
+            font-family: monospace;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .web-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            border-bottom: 1px solid var(--text-muted);
+            padding-bottom: 1px;
+        }
+
+        .web-link:hover {
+            color: var(--brand);
+            border-bottom-color: var(--brand);
+        }
+
+        /* Bottoni e Utility */
+        .btn-mini-copy {
+            background: var(--light-gray);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.52rem;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            vertical-align: middle;
+            border-radius: 2px;
+        }
+
+        .btn-mini-copy:hover {
+            color: var(--brand);
+            border-color: var(--brand);
+            background: #ffffff;
+        }
+
+        .btn-action-outline {
+            background: none;
+            border: 1px dashed var(--brand);
+            color: var(--brand);
+            font-size: 0.58rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-weight: 700;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+            display: inline-block;
+            margin-top: 5px;
+            text-decoration: none;
+        }
+
+        .btn-action-outline:hover {
+            background: var(--brand);
+            color: #ffffff;
+            border-style: solid;
+        }
+
+        .micro-desc {
+            font-size: 0.58rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-top: 8px;
+            max-width: 320px;
+        }
+
+        /* Form di iscrizione newsletter minimale */
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+            max-width: 380px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            background: var(--light-gray);
+            border: 1px solid var(--border);
+            padding: 6px 10px;
+            font-size: 0.72rem;
+            color: var(--text-dark);
+            outline: none;
+            border-radius: 2px;
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--brand);
+            background: #ffffff;
+        }
+
+        .btn-submit {
+            background: var(--brand);
+            color: #ffffff;
+            border: 1px solid var(--brand);
+            font-size: 0.58rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            padding: 0 14px;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        /* --- INTERFACCIA DI NAVIGAZIONE FISSA --- */
+        .fixed-interface {
+            position: fixed;
+            bottom: 40px;
+            right: 50px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            z-index: 10;
+        }
+
+        .nav-numbers {
+            display: flex;
+            gap: 14px;
+        }
+
+        .nav-num {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 2px;
+        }
+
+        .nav-num.active {
+            color: var(--brand);
+        }
+
+        .nav-num.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--brand);
+        }
+
+        .scroll-indicator {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            animation: bounceLeftRight 2s infinite;
+        }
+
+        /* Toast Popup Notifica */
+        .toast-system {
+            position: fixed;
+            bottom: 40px;
+            left: 50px;
+            background-color: var(--brand);
+            color: #ffffff;
+            font-size: 0.6rem;
+            padding: 6px 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .toast-system.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes bounceLeftRight {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(4px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .presentation-grid { grid-template-columns: 1fr; gap: 30px; }
+            .fixed-interface { left: 40px; right: auto; justify-content: space-between; width: calc(100% - 80px); }
+            .info-table td { display: block; padding: 6px 0; }
+            .info-table td.label { border: none; padding-bottom: 0; }
+            .logo-img { max-width: 280px; }
+            .newsletter-form { flex-direction: column; }
+            .btn-submit { padding: 8px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="web-deck" id="mainDeck">
+        
+        <section class="web-page active" id="page0">
+            <div class="logo-wrapper">
+                <img src="BND.jpg" alt="Logo" class="logo-img">
+            </div>
+        </section>
+
+        <section class="web-page" id="page1">
+            <div class="presentation-grid">
+                <div class="section-meta">01 // Società</div>
+                
+                <div class="content-block">
+                    <table class="info-table">
+                        <tr>
+                            <td class="label">Ragione Sociale</td>
+                            <td>Benedetti Ingegneria S.r.l. Unipersonale</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Sede Legale</td>
+                            <td>Vicolo del Bago 2, 41026 Pavullo nel Frignano (MO)</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Partita IVA</td>
+                            <td class="mono">IT04263840367</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Codice REA</td>
+                            <td class="mono">MO 456314</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="web-page" id="page2">
+            <div class="presentation-grid">
+                <div class="section-meta">02 // Contatti</div>
+                
+                <div class="content-block">
+                    <table class="info-table">
+                        <tr>
+                            <td class="label">E-Mail</td>
+                            <td><a href="mailto:info@Benedetti-Ingegneria.it" class="web-link">info@Benedetti-Ingegneria.it</a></td>
+                        </tr>
+                        <tr>
+                            <td class="label">P.E.C.</td>
+                            <td><a href="mailto:Benedettiingegneriasrl@Lapam.Legalmail.it" class="web-link">Benedettiingegneriasrl@Lapam.Legalmail.it</a></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Telefono</td>
+                            <td><a href="tel:3342770925" class="web-link">334 2770925</a></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Disponibilità</td>
+                            <td>
+                                <button class="btn-action-outline" onclick="downloadVCard()">Salva in Rubrica</button>
+                                <div class="micro-desc">
+                                    <strong>Orari Studio:</strong><br>
+                                    Lunedì — Venerdì / 09:00 - 13:00, 14:00 - 18:00
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="web-page" id="page3">
+            <div class="presentation-grid">
+                <div class="section-meta">03 // Tesoreria</div>
+                
+                <div class="content-block">
+                    <table class="info-table">
+                        <tr>
+                            <td class="label">Codice IBAN</td>
+                            <td>
+                                <span class="mono" style="word-break: break-all; display: block; margin-bottom: 4px;">IT91G0847266920000000123597</span>
+                                <button class="btn-mini-copy" onclick="copyData('IT91G0847266920000000123597')">Copia IBAN</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">Codice SDI</td>
+                            <td>
+                                <span class="mono">xmxaup4</span>
+                                <button class="btn-mini-copy" onclick="copyData('xmxaup4')">Copia</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="web-page" id="page4">
+            <div class="presentation-grid">
+                <div class="section-meta">04 // Aggiornamenti</div>
+                
+                <div class="content-block">
+                    <table class="info-table">
+                        <tr>
+                            <td class="label">Newsletter</td>
+                            <td>
+                                <span style="font-size: 0.72rem; line-height: 1.5; display: block; margin-bottom: 10px; color: var(--text-dark);">
+                                    Iscriviti per ricevere circolari tecniche, aggiornamenti normativi e comunicazioni dallo studio.
+                                </span>
+                                <div class="newsletter-form">
+                                    <input type="email" id="subscriberEmail" placeholder="Inserisci il tuo indirizzo e-mail" class="newsletter-input" required>
+                                    <button type="button" class="btn-submit" onclick="sendNewsletterRequest()">Iscriviti</button>
+                                </div>
+                                <div class="micro-desc" style="margin-top: 12px;">
+                                    L'invio genererà automaticamente una richiesta e-mail precompilata indirizzata alla nostra segreteria.
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="fixed-interface">
+        <div class="scroll-indicator" id="scrollTag">Scorri per info →</div>
+        <div class="nav-numbers">
+            <span class="nav-num active" onclick="jumpToPage(0)">00</span>
+            <span class="nav-num" onclick="jumpToPage(1)">01</span>
+            <span class="nav-num" onclick="jumpToPage(2)">02</span>
+            <span class="nav-num" onclick="jumpToPage(3)">03</span>
+            <span class="nav-num" onclick="jumpToPage(4)">04</span>
+        </div>
+    </div>
+
+    <div class="toast-system" id="toast">// COPIATO</div>
+
+    <script>
+        let currentPage = 0;
+        const totalPages = 5;
+        const deck = document.getElementById('mainDeck');
+        const pages = document.querySelectorAll('.web-page');
+        const numbers = document.querySelectorAll('.nav-num');
+        const scrollTag = document.getElementById('scrollTag');
+        let isScrolling = false;
+
+        function updateDeck() {
+            deck.style.transform = `translateX(-${currentPage * 100}vw)`;
+            
+            pages.forEach((p, idx) => {
+                if(idx === currentPage) p.classList.add('active');
+                else p.classList.remove('active');
+            });
+
+            numbers.forEach((n, idx) => {
+                if(idx === currentPage) n.classList.add('active');
+                else n.classList.remove('active');
+            });
+
+            if (currentPage === 0) scrollTag.innerText = "Scorri per info \u2192";
+            else if (currentPage === totalPages - 1) scrollTag.innerText = "\u2190 Indietro";
+            else scrollTag.innerText = "Scorri \u2194";
+        }
+
+        function jumpToPage(index) {
+            currentPage = index;
+            updateDeck();
+        }
+
+        window.addEventListener('wheel', (e) => {
+            if (isScrolling) return;
+            isScrolling = true;
+            
+            if (e.deltaY > 0 && currentPage < totalPages - 1) {
+                currentPage++;
+            } else if (e.deltaY < 0 && currentPage > 0) {
+                currentPage--;
+            }
+            
+            updateDeck();
+            setTimeout(() => { isScrolling = false; }, 600);
+        });
+
+        let touchStartX = 0;
+        window.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+        window.addEventListener('touchend', e => {
+            let touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50 && currentPage < totalPages - 1) {
+                currentPage++;
+                updateDeck();
+            } else if (touchEndX - touchStartX > 50 && currentPage > 0) {
+                currentPage--;
+                updateDeck();
+            }
+        });
+
+        function copyData(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.innerText = "// COPIATO";
+                toast.classList.add('show');
+                setTimeout(() => { toast.classList.remove('show'); }, 1400);
+            });
+        }
+
+        function downloadVCard() {
+            const vcardData = [
+                "BEGIN:VCARD",
+                "VERSION:3.0",
+                "ORG:Benedetti Ingegneria S.r.l. Unipersonale",
+                "FN:Benedetti Ingegneria",
+                "TEL;TYPE=CELL,VOICE:3342770925",
+                "EMAIL;TYPE=PREF,INTERNET:info@Benedetti-Ingegneria.it",
+                "EMAIL;TYPE=INTERNET:Benedettiingegneriasrl@Lapam.Legalmail.it",
+                "ADR;TYPE=WORK,POSTAL,PARCEL:;;Vicolo del Bago 2;Pavullo nel Frignano;MO;41026;Italia",
+                "NOTE:P.IVA: IT04263840367 - REA: MO 456314 - SDI: xmxaup4",
+                "END:VCARD"
+            ].join("\r\n");
+
+            const blob = new Blob([vcardData], { type: "text/vcard;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Benedetti_Ingegneria.vcf";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function sendNewsletterRequest() {
+            const emailInput = document.getElementById('subscriberEmail');
+            const email = emailInput.value.trim();
+            
+            if (!email || !email.includes('@')) {
+                const toast = document.getElementById('toast');
+                toast.innerText = "// INSERIRE EMAIL VALIDA";
+                toast.classList.add('show');
+                setTimeout(() => { toast.classList.remove('show'); }, 2000);
+                return;
+            }
+
+            const subject = encodeURIComponent("Iscrizione Newsletter - Benedetti Ingegneria");
+            const body = encodeURIComponent(`Richiesta di iscrizione al servizio aggiornamenti per l'indirizzo: ${email}`);
+            
+            window.location.href = `mailto:info@Benedetti-Ingegneria.it?subject=${subject}&body=${body}`;
+        }
+    </script>
+
+</body>
+</html>

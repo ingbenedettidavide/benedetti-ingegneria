@@ -1,583 +1,885 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XPFQR4RRM5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XPFQR4RRM5');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BENEDETTI INGEGNERIA</title>
+    <title>Benedetti Ingegneria</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #ffffff;
-            --text-dark: #1a1a1a;    /* Grigio antracite */
-            --text-muted: #7e7e7e;   /* Grigio medio */
-            --light-gray: #f6f6f6;   /* Grigio chiaro */
-            --brand: #800020;        /* Bordeaux istituzionale */
-            --border: #e2e2e2;
+            --ink:   #1c1c1c;
+            --red:   #800020;
+            --paper: #ffffff;
+            --rule:  #e0e0e0;
+            --muted: #888888;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body, html {
-            background-color: var(--bg);
-            color: var(--text-dark);
+        html, body {
             height: 100%;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
             overflow: hidden;
         }
 
-        /* Contenitore orizzontale per il flusso delle 5 pagine */
-        .web-deck {
+        /* ── DECK ORIZZONTALE ── */
+        .deck {
             display: flex;
             width: 500vw;
             height: 100vh;
-            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+            position: relative;
         }
 
-        .web-page {
+        .panel {
             width: 100vw;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px;
+            padding: 60px;
             position: relative;
             opacity: 0;
-            transform: scale(0.98);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transition: opacity 0.6s ease 0.2s;
         }
+        .panel.active { opacity: 1; }
 
-        .web-page.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* --- COPERTINA: SOLO LOGO --- */
-        .logo-wrapper {
-            display: flex;
-            align-items: center;
+        /* ── COPERTINA ── */
+        .cover {
+            flex-direction: column;
+            align-items: flex-start;
             justify-content: center;
-            width: 100%;
-            height: 100%;
+            padding-left: 80px;
         }
 
-        .logo-img {
-            max-width: 420px;
-            width: 90%;
+        .cover-logo {
+            max-width: 340px;
+            width: 80%;
             height: auto;
             object-fit: contain;
+            display: block;
         }
 
-        /* --- STRUTTURA DELLE SCHEDE INFORMATIVE --- */
-        .presentation-grid {
+        .cover-sub {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            color: var(--muted);
+            margin-top: 36px;
+            letter-spacing: 1px;
+            border-top: 1px solid var(--rule);
+            padding-top: 18px;
+            max-width: 380px;
+            line-height: 1.9;
+        }
+
+        .cover-coord {
+            position: absolute;
+            top: 60px;
+            right: 60px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--rule);
+            letter-spacing: 1px;
+            text-align: right;
+            line-height: 1.9;
+        }
+
+        .vline {
+            position: absolute;
+            left: 36px;
+            top: 60px;
+            bottom: 60px;
+            width: 1px;
+            background: var(--rule);
+        }
+        .vline::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 1px;
+            height: 60px;
+            background: var(--red);
+        }
+
+        /* ── LAYOUT INTERNI ── */
+        .inner {
             width: 100%;
-            max-width: 900px;
+            max-width: 1080px;
             display: grid;
-            grid-template-columns: 240px 1fr;
+            grid-template-columns: 220px 1fr;
             gap: 60px;
             align-items: start;
         }
 
-        .section-meta {
-            font-size: 0.55rem;
-            color: var(--brand);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            border-bottom: 1px solid var(--brand);
-            padding-bottom: 4px;
-        }
-
-        /* Tabelle e testi miniaturizzati */
-        .info-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: -6px;
-        }
-
-        .info-table td {
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.72rem;
-            vertical-align: top;
-        }
-
-        .info-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .info-table td.label {
-            width: 120px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .panel-label {
+            font-family: 'DM Mono', monospace;
             font-size: 0.58rem;
-            font-weight: 500;
-            padding-top: 14px;
-        }
-
-        .mono {
-            font-family: monospace;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .web-link {
-            color: var(--text-dark);
-            text-decoration: none;
-            border-bottom: 1px solid var(--text-muted);
-            padding-bottom: 1px;
-        }
-
-        .web-link:hover {
-            color: var(--brand);
-            border-bottom-color: var(--brand);
-        }
-
-        /* Bottoni e Utility */
-        .btn-mini-copy {
-            background: var(--light-gray);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.52rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            padding: 2px 6px;
-            margin-left: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            vertical-align: middle;
-            border-radius: 2px;
+            color: var(--red);
+            border-bottom: 1px solid var(--red);
+            padding-bottom: 6px;
         }
 
-        .btn-mini-copy:hover {
-            color: var(--brand);
-            border-color: var(--brand);
-            background: #ffffff;
+        .panel-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--ink);
+            line-height: 1.1;
+            margin-bottom: 32px;
         }
 
-        .btn-action-outline {
-            background: none;
-            border: 1px dashed var(--brand);
-            color: var(--brand);
+        /* ── TABELLE ── */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table tr { border-bottom: 1px solid var(--rule); }
+        .data-table tr:first-child { border-top: 1px solid var(--rule); }
+        .data-table td { padding: 14px 0; vertical-align: top; font-size: 0.82rem; line-height: 1.6; }
+        .data-table td.key {
+            font-family: 'DM Mono', monospace;
             font-size: 0.58rem;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 4px 8px;
-            cursor: pointer;
-            font-weight: 700;
-            border-radius: 2px;
-            transition: all 0.2s ease;
+            color: var(--muted);
+            width: 150px;
+            padding-top: 17px;
+        }
+        .mono-val { font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 500; }
+
+        a.tlink { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); transition: border-color 0.2s, color 0.2s; }
+        a.tlink:hover { color: var(--red); border-color: var(--red); }
+
+        .btn {
             display: inline-block;
-            margin-top: 5px;
-            text-decoration: none;
-        }
-
-        .btn-action-outline:hover {
-            background: var(--brand);
-            color: #ffffff;
-            border-style: solid;
-        }
-
-        .micro-desc {
-            font-size: 0.58rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-top: 8px;
-            max-width: 320px;
-        }
-
-        /* Form di iscrizione newsletter minimale */
-        .newsletter-form {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-            max-width: 380px;
-        }
-
-        .newsletter-input {
-            flex: 1;
-            background: var(--light-gray);
-            border: 1px solid var(--border);
-            padding: 6px 10px;
-            font-size: 0.72rem;
-            color: var(--text-dark);
-            outline: none;
-            border-radius: 2px;
-        }
-
-        .newsletter-input:focus {
-            border-color: var(--brand);
-            background: #ffffff;
-        }
-
-        .btn-submit {
-            background: var(--brand);
-            color: #ffffff;
-            border: 1px solid var(--brand);
-            font-size: 0.58rem;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-            padding: 0 14px;
+            color: var(--red);
+            border: 1px solid var(--red);
+            padding: 7px 14px;
             cursor: pointer;
-            border-radius: 2px;
-            transition: opacity 0.2s;
+            background: none;
+            transition: background 0.2s, color 0.2s;
+            text-decoration: none;
+            margin-top: 6px;
+        }
+        .btn:hover { background: var(--red); color: #fff; }
+
+        /* Newsletter */
+        .nl-row { display: flex; gap: 0; margin-top: 14px; max-width: 400px; }
+        .nl-input {
+            flex: 1; border: 1px solid var(--rule); border-right: none;
+            background: #fafafa; padding: 9px 12px;
+            font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: var(--ink); outline: none;
+        }
+        .nl-input:focus { border-color: var(--red); }
+        .nl-btn {
+            font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 1.5px;
+            text-transform: uppercase; background: var(--red); color: #fff;
+            border: 1px solid var(--red); padding: 9px 16px; cursor: pointer; transition: opacity 0.2s;
+        }
+        .nl-btn:hover { opacity: 0.85; }
+
+        /* ── PAGINA IL NOSTRO TEAM ── */
+        .projects-wrap {
+            width: 100%;
+            max-width: 1080px;
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 60px;
+            align-items: start;
+            height: 80vh;
         }
 
-        .btn-submit:hover {
-            opacity: 0.9;
+        .projects-scroll {
+            overflow-y: auto;
+            max-height: 78vh;
+            padding-right: 12px;
+        }
+        .projects-scroll::-webkit-scrollbar { width: 2px; }
+        .projects-scroll::-webkit-scrollbar-thumb { background: var(--red); }
+        .projects-scroll::-webkit-scrollbar-track { background: var(--rule); }
+
+        /* Profilo */
+        .profile-block {
+            background: #fafafa;
+            border: 1px solid var(--rule);
+            border-top: 3px solid var(--red);
+            padding: 22px 24px;
+            margin-bottom: 30px;
+        }
+        .profile-name { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--ink); line-height: 1.1; }
+        .profile-role {
+            font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--red); margin-top: 5px; margin-bottom: 14px;
+        }
+        .profile-note {
+            font-size: 0.72rem; color: var(--muted); line-height: 1.65;
+            font-style: italic; border-top: 1px solid var(--rule); padding-top: 12px; margin-top: 10px;
         }
 
-        /* --- INTERFACCIA DI NAVIGAZIONE FISSA --- */
-        .fixed-interface {
+        .abilitazioni { margin-top: 16px; border-top: 1px solid var(--rule); padding-top: 14px; }
+        .ab-title {
+            font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 2.5px;
+            text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+        }
+        .ab-grid { display: grid; grid-template-columns: 130px 1fr; gap: 8px 14px; align-items: baseline; }
+        .ab-tag {
+            font-family: 'DM Mono', monospace; font-size: 0.52rem; font-weight: 500;
+            letter-spacing: 1px; text-transform: uppercase; color: var(--red);
+            border: 1px solid var(--red); padding: 2px 6px; justify-self: start; white-space: nowrap;
+        }
+        .ab-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.55; }
+
+        /* Categorie e accordion */
+        .cat-sep {
+            font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--muted); background: #f5f5f5;
+            border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+            padding: 6px 0; margin: 22px 0 8px;
+        }
+        .prj-item { border-bottom: 1px solid var(--rule); }
+        .prj-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; cursor: pointer; gap: 16px; }
+        .prj-title-row { display: flex; align-items: center; gap: 14px; flex: 1; }
+        .prj-name {
+            font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 500;
+            letter-spacing: 0.3px; color: var(--ink); text-transform: uppercase; transition: color 0.2s;
+        }
+        .prj-item:hover .prj-name { color: var(--red); }
+        .prj-badge {
+            font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 1px;
+            text-transform: uppercase; color: var(--muted); border: 1px solid var(--rule); padding: 2px 7px; white-space: nowrap;
+        }
+        .prj-toggle { font-size: 1rem; color: var(--muted); transition: transform 0.3s, color 0.2s; width: 16px; text-align: center; display: inline-block; }
+        .prj-item.open .prj-toggle { transform: rotate(45deg); color: var(--red); }
+        .prj-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25,1,0.5,1); }
+        .prj-inner { padding: 14px 0 20px; display: grid; grid-template-columns: 1.8fr 1fr; gap: 32px; align-items: start; }
+        .prj-text { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+        .prj-cost { display: block; margin-top: 10px; font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 500; color: var(--ink); }
+        .prj-links { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 14px; }
+        .prj-link {
+            font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 1px;
+            text-transform: uppercase; color: var(--red); text-decoration: none;
+            border-bottom: 1px solid transparent; transition: border-color 0.2s;
+        }
+        .prj-link:hover { border-bottom-color: var(--red); }
+        .prj-img { width: 100%; max-height: 200px; object-fit: cover; border: 1px solid var(--rule); }
+
+        /* ── NAV ── */
+        .nav-fixed {
+            position: fixed; bottom: 36px; right: 48px;
+            display: flex; align-items: center; gap: 20px; z-index: 100;
+        }
+        .nav-hint {
+            font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 1.5px;
+            text-transform: uppercase; color: var(--muted);
+            animation: nudge 2.4s ease-in-out infinite;
+        }
+        @keyframes nudge { 0%,100%{transform:translateX(0)} 50%{transform:translateX(5px)} }
+        .nav-dots { display: flex; gap: 10px; align-items: center; }
+        .nav-dot {
+            font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500;
+            color: var(--rule); cursor: pointer; letter-spacing: 1px; transition: color 0.2s; user-select: none;
+        }
+        .nav-dot.on { color: var(--red); }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 36px; left: 48px;
+            font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 1.5px;
+            text-transform: uppercase; background: var(--red); color: #fff;
+            padding: 6px 14px; opacity: 0; transform: translateY(8px);
+            transition: all 0.3s; z-index: 200;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        /* ── COOKIE BANNER ── */
+        #cookie-banner {
             position: fixed;
-            bottom: 40px;
-            right: 50px;
+            bottom: 0; left: 0; right: 0;
+            background: #fff;
+            border-top: 2px solid var(--red);
+            padding: 20px 48px;
             display: flex;
             align-items: center;
-            gap: 24px;
-            z-index: 10;
+            justify-content: space-between;
+            gap: 30px;
+            z-index: 9999;
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.06);
         }
-
-        .nav-numbers {
-            display: flex;
-            gap: 14px;
+        #cookie-banner p {
+            font-size: 0.75rem;
+            color: var(--muted);
+            line-height: 1.65;
+            max-width: 720px;
         }
-
-        .nav-num {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: color 0.3s;
-            position: relative;
-            padding-bottom: 2px;
-        }
-
-        .nav-num.active {
-            color: var(--brand);
-        }
-
-        .nav-num.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background-color: var(--brand);
-        }
-
-        .scroll-indicator {
-            font-size: 0.55rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            animation: bounceLeftRight 2s infinite;
-        }
-
-        /* Toast Popup Notifica */
-        .toast-system {
-            position: fixed;
-            bottom: 40px;
-            left: 50px;
-            background-color: var(--brand);
-            color: #ffffff;
+        #cookie-banner p a { color: var(--red); text-decoration: underline; }
+        #cookie-banner p strong { color: var(--ink); }
+        .cookie-actions { display: flex; gap: 12px; flex-shrink: 0; }
+        .cookie-btn {
+            font-family: 'DM Mono', monospace;
             font-size: 0.6rem;
-            padding: 6px 14px;
-            font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-            z-index: 10;
+            padding: 8px 18px;
+            cursor: pointer;
+            border: 1px solid var(--red);
+            transition: background 0.2s, color 0.2s;
         }
-
-        .toast-system.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @keyframes bounceLeftRight {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(4px); }
-        }
+        .cookie-btn.accept { background: var(--red); color: #fff; }
+        .cookie-btn.accept:hover { opacity: 0.85; }
+        .cookie-btn.reject { background: none; color: var(--red); }
+        .cookie-btn.reject:hover { background: var(--red); color: #fff; }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .presentation-grid { grid-template-columns: 1fr; gap: 30px; }
-            .fixed-interface { left: 40px; right: auto; justify-content: space-between; width: calc(100% - 80px); }
-            .info-table td { display: block; padding: 6px 0; }
-            .info-table td.label { border: none; padding-bottom: 0; }
-            .logo-img { max-width: 280px; }
-            .newsletter-form { flex-direction: column; }
-            .btn-submit { padding: 8px 0; }
+            .panel { padding: 32px 24px; }
+            .cover { padding-left: 40px; }
+            .inner, .projects-wrap { grid-template-columns: 1fr; gap: 24px; height: auto; }
+            .projects-scroll { max-height: 65vh; }
+            .prj-inner { grid-template-columns: 1fr; }
+            .ab-grid { grid-template-columns: 110px 1fr; }
+            .nav-fixed { left: 24px; right: 24px; justify-content: space-between; }
+            .vline { display: none; }
+            #cookie-banner { flex-direction: column; align-items: flex-start; padding: 20px 24px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .nav-hint { animation: none; }
+            .deck { transition: none; }
         }
     </style>
+
+    <!-- Google Analytics — caricato SOLO dopo consenso -->
+    <script>
+        window.GA_LOADED = false;
+        function loadGA() {
+            if (window.GA_LOADED) return;
+            window.GA_LOADED = true;
+            var s = document.createElement('script');
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX'; // sostituisci con il tuo ID
+            s.async = true;
+            document.head.appendChild(s);
+            s.onload = function() {
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', 'G-XXXXXXXXXX'); // sostituisci con il tuo ID
+            };
+        }
+    </script>
 </head>
 <body>
 
-    <div class="web-deck" id="mainDeck">
-        
-        <section class="web-page active" id="page0">
-            <div class="logo-wrapper">
-                <img src="BND.jpg" alt="Logo" class="logo-img">
-            </div>
-        </section>
-
-        <section class="web-page" id="page1">
-            <div class="presentation-grid">
-                <div class="section-meta">01 // Società</div>
-                
-                <div class="content-block">
-                    <table class="info-table">
-                        <tr>
-                            <td class="label">Ragione Sociale</td>
-                            <td>Benedetti Ingegneria S.r.l. Unipersonale</td>
-                        </tr>
-                        <tr>
-                            <td class="label">Sede Legale</td>
-                            <td>Vicolo del Bago 2, 41026 Pavullo nel Frignano (MO)</td>
-                        </tr>
-                        <tr>
-                            <td class="label">Partita IVA</td>
-                            <td class="mono">IT04263840367</td>
-                        </tr>
-                        <tr>
-                            <td class="label">Codice REA</td>
-                            <td class="mono">MO 456314</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <section class="web-page" id="page2">
-            <div class="presentation-grid">
-                <div class="section-meta">02 // Contatti</div>
-                
-                <div class="content-block">
-                    <table class="info-table">
-                        <tr>
-                            <td class="label">E-Mail</td>
-                            <td><a href="mailto:info@Benedetti-Ingegneria.it" class="web-link">info@Benedetti-Ingegneria.it</a></td>
-                        </tr>
-                        <tr>
-                            <td class="label">P.E.C.</td>
-                            <td><a href="mailto:Benedettiingegneriasrl@Lapam.Legalmail.it" class="web-link">Benedettiingegneriasrl@Lapam.Legalmail.it</a></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Telefono</td>
-                            <td><a href="tel:3342770925" class="web-link">334 2770925</a></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Disponibilità</td>
-                            <td>
-                                <button class="btn-action-outline" onclick="downloadVCard()">Salva in Rubrica</button>
-                                <div class="micro-desc">
-                                    <strong>Orari Studio:</strong><br>
-                                    Lunedì — Venerdì / 09:00 - 13:00, 14:00 - 18:00
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <section class="web-page" id="page3">
-            <div class="presentation-grid">
-                <div class="section-meta">03 // Tesoreria</div>
-                
-                <div class="content-block">
-                    <table class="info-table">
-                        <tr>
-                            <td class="label">Codice IBAN</td>
-                            <td>
-                                <span class="mono" style="word-break: break-all; display: block; margin-bottom: 4px;">IT91G0847266920000000123597</span>
-                                <button class="btn-mini-copy" onclick="copyData('IT91G0847266920000000123597')">Copia IBAN</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">Codice SDI</td>
-                            <td>
-                                <span class="mono">xmxaup4</span>
-                                <button class="btn-mini-copy" onclick="copyData('xmxaup4')">Copia</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <section class="web-page" id="page4">
-            <div class="presentation-grid">
-                <div class="section-meta">04 // Aggiornamenti</div>
-                
-                <div class="content-block">
-                    <table class="info-table">
-                        <tr>
-                            <td class="label">Newsletter</td>
-                            <td>
-                                <span style="font-size: 0.72rem; line-height: 1.5; display: block; margin-bottom: 10px; color: var(--text-dark);">
-                                    Iscriviti per ricevere circolari tecniche, aggiornamenti normativi e comunicazioni dallo studio.
-                                </span>
-                                <div class="newsletter-form">
-                                    <input type="email" id="subscriberEmail" placeholder="Inserisci il tuo indirizzo e-mail" class="newsletter-input" required>
-                                    <button type="button" class="btn-submit" onclick="sendNewsletterRequest()">Iscriviti</button>
-                                </div>
-                                <div class="micro-desc" style="margin-top: 12px;">
-                                    L'invio genererà automaticamente una richiesta e-mail precompilata indirizzata alla nostra segreteria.
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </section>
-
+<!-- ══ COOKIE BANNER ══ -->
+<div id="cookie-banner">
+    <p>
+        <strong>Questo sito utilizza cookie.</strong> Usiamo Google Analytics per analizzare il traffico in forma anonima. 
+        Puoi accettare o rifiutare i cookie analitici. I cookie tecnici necessari al funzionamento del sito sono sempre attivi. 
+        Consulta la nostra <a href="#">Privacy Policy</a>.
+    </p>
+    <div class="cookie-actions">
+        <button class="cookie-btn reject" onclick="cookieChoice(false)">Rifiuta</button>
+        <button class="cookie-btn accept" onclick="cookieChoice(true)">Accetta</button>
     </div>
+</div>
 
-    <div class="fixed-interface">
-        <div class="scroll-indicator" id="scrollTag">Scorri per info →</div>
-        <div class="nav-numbers">
-            <span class="nav-num active" onclick="jumpToPage(0)">00</span>
-            <span class="nav-num" onclick="jumpToPage(1)">01</span>
-            <span class="nav-num" onclick="jumpToPage(2)">02</span>
-            <span class="nav-num" onclick="jumpToPage(3)">03</span>
-            <span class="nav-num" onclick="jumpToPage(4)">04</span>
+<div class="deck" id="deck">
+
+    <!-- 00 COPERTINA -->
+    <section class="panel cover active" id="p0">
+        <div class="vline"></div>
+        <div class="cover-coord">
+            44°6′N 10°49′E<br>
+            Pavullo nel Frignano<br>
+            Modena · Italia<br>
+            ——<br>
+            benedetti-ingegneria.it
         </div>
+        <div>
+            <img src="Bnd.jpg" alt="Benedetti Ingegneria" class="cover-logo">
+            <div class="cover-sub">
+                Benedetti Ingegneria S.r.l. Unipersonale<br>
+                Vicolo del Bago 2 · 41026 Pavullo nel Frignano (MO)<br>
+                P.IVA IT04263840367 · REA MO 456314
+            </div>
+        </div>
+    </section>
+
+    <!-- 01 SOCIETÀ -->
+    <section class="panel" id="p1">
+        <div class="inner">
+            <div><div class="panel-label">01 / Società</div></div>
+            <div>
+                <div class="panel-title">Dati<br>Societari</div>
+                <table class="data-table">
+                    <tr><td class="key">Ragione Sociale</td><td>Benedetti Ingegneria S.r.l. Unipersonale</td></tr>
+                    <tr><td class="key">Sede Legale</td><td>Vicolo del Bago 2, 41026 Pavullo nel Frignano (MO)</td></tr>
+                    <tr><td class="key">Partita IVA</td><td><span class="mono-val">IT04263840367</span></td></tr>
+                    <tr><td class="key">Codice REA</td><td><span class="mono-val">MO 456314</span></td></tr>
+                    <tr><td class="key">Codice SDI</td><td><span class="mono-val">xmxaup4</span></td></tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 02 CONTATTI -->
+    <section class="panel" id="p2">
+        <div class="inner">
+            <div><div class="panel-label">02 / Contatti</div></div>
+            <div>
+                <div class="panel-title">Recapiti</div>
+                <table class="data-table">
+                    <tr><td class="key">E-Mail</td><td><a href="mailto:info@Benedetti-Ingegneria.it" class="tlink">info@Benedetti-Ingegneria.it</a></td></tr>
+                    <tr><td class="key">P.E.C.</td><td><a href="mailto:Benedettiingegneriasrl@Lapam.Legalmail.it" class="tlink">Benedettiingegneriasrl@Lapam.Legalmail.it</a></td></tr>
+                    <tr><td class="key">Telefono</td><td><a href="tel:3342770925" class="tlink">334 2770925</a></td></tr>
+                    <tr>
+                        <td class="key">Orari</td>
+                        <td>
+                            Lun — Ven / 09:00–13:00 · 14:00–18:00
+                            <br><button class="btn" onclick="downloadVCard()" style="margin-top:10px;">↓ Salva in Rubrica</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 03 AGGIORNAMENTI -->
+    <section class="panel" id="p3">
+        <div class="inner">
+            <div><div class="panel-label">03 / Aggiornamenti</div></div>
+            <div>
+                <div class="panel-title">Newsletter</div>
+                <table class="data-table">
+                    <tr>
+                        <td class="key">Iscrizione</td>
+                        <td>
+                            <span style="font-size:0.82rem;line-height:1.65;display:block;margin-bottom:14px;">	Iscriviti per ricevere circolari tecniche, aggiornamenti normativi e comunicazioni dallo studio..</span>
+                            <div class="nl-row">
+                                <input type="email" id="nlEmail" placeholder="indirizzo e-mail" class="nl-input">
+                                <button class="nl-btn" onclick="sendNL()">Iscriviti</button>
+                            </div>
+                            <p style="font-size:0.68rem;color:var(--muted);margin-top:12px;line-height:1.6;">L'invio genererà una richiesta e-mail precompilata indirizzata alla segreteria.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 04 IL NOSTRO TEAM -->
+    <section class="panel" id="p4">
+        <div class="projects-wrap">
+            <div><div class="panel-label">04 / Il Nostro Team</div></div>
+            <div class="projects-scroll" id="projectsScroll">
+
+                <!-- PROFILO ING. BENEDETTI -->
+                <div class="profile-block">
+                    <div class="profile-name">Ing. Davide Benedetti</div>
+                    <div class="profile-role">Socio Fondatore e Amministratore</div>
+                    <div style="font-size:0.75rem;color:var(--ink);line-height:1.65;">
+                        Iscritto all'Ordine degli Ingegneri di Modena, sezione A, settore civile ed ambientale — N. 3602.
+                    </div>
+                    <div class="profile-note">
+                        I progetti elencati di seguito sono realizzazioni personali dell'Ing. Benedetti in qualità di libero professionista, e non sono da attribuire alla Benedetti Ingegneria S.r.l. Unipersonale.
+                    </div>
+
+                    <div class="abilitazioni">
+                        <div class="ab-title">Formazione</div>
+                        <div class="ab-grid">
+                            <span class="ab-tag">Laurea Magistrale</span>
+                            <span class="ab-desc">Ingegneria Civile (D.M. 270/04) — A.A. 2015/2016, 2016/2017. Università degli Studi di Modena e Reggio Emilia, Dipartimento di Ingegneria "Enzo Ferrari".</span>
+                        </div>
+                    </div>
+
+                    <div class="abilitazioni">
+                        <div class="ab-title">Abilitazioni &amp; Referenze</div>
+                        <div class="ab-grid">
+                            <span class="ab-tag">Antincendio</span>
+                            <span class="ab-desc">Professionista Antincendio — iscritto negli elenchi del Ministero dell'Interno ai sensi del D.M. 5 agosto 2011.</span>
+
+                            <span class="ab-tag">RDLC</span>
+                            <span class="ab-desc">Abilitazione D.P.R. 177/2011 — Rappresentante del datore di lavoro committente per ambienti confinati o sospetti di inquinamento.</span>
+
+                            <span class="ab-tag">CSE / CSP</span>
+                            <span class="ab-desc">Coordinatore della Sicurezza in fase di Progettazione ed Esecuzione ai sensi dell'art. 98 comma 2 e all. XIV del D.Lgs. 81/2008 e s.m.i.</span>
+
+                            <span class="ab-tag">Ispettore EE</span>
+                            <span class="ab-desc">Ispettore abilitato alle verifiche di impianti elettrici ai sensi del D.P.R. 462/01.</span>
+
+                            <span class="ab-tag">Cert. Energetico</span>
+                            <span class="ab-desc">Certificatore Energetico accreditato Regione Emilia-Romagna — N. Accreditamento: 09074.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EDILIZIA -->
+                <div class="cat-sep">Edilizia &amp; Rigenerazione Urbana</div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">01 // Edilizia Residenziale Privata (CSP-CSE)</span><span class="prj-badge">Edilizia</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Nuova costruzione fabbricati residenziali nei comuni di Castenaso, Granarolo dell'Emilia, San Lazzaro di Savena, Ozzano dell'Emilia (BO) e Sala Bolognese (BO).</div>
+                        <div><img src="foto1.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">06 // Ristrutturazione Palazzina Virtus (CSE)</span><span class="prj-badge">Rigenerazione</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Coordinatore della Sicurezza (D.Lgs. 81/08) per il Comune di Pavullo nel Frignano per i lavori di ristrutturazione ed adeguamento normativo della Palazzina Virtus dell'impianto sportivo "G. Galloni" e dell'attiguo bocciodromo comunale.
+                            <div class="prj-links"><a href="https://www.ilrestodelcarlino.it/modena/cronaca/palazzina-virtus-via-al-cantiere-lavori-per-oltre-mezzo-milione-7a6060f7" target="_blank" class="prj-link">Articolo di giornale →</a></div>
+                        </div>
+                        <div><img src="foto6.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">10 // Complesso ERP Via Zanasi (CSE)</span><span class="prj-badge">Rigenerazione</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Coordinatore della Sicurezza (D.Lgs. 81/08) per il Comune di Castelfranco Emilia (MO). Riqualificazione e ristrutturazione del complesso ERP di via Zanasi 60/70.
+                            <span class="prj-cost">Importo: 1.500.000,00 €</span>
+                            <div class="prj-links">
+                                <a href="https://www.comune.castelfranco-emilia.mo.it/vivere-castelfranco-emilia/la-nostra-citta-si-trasforma/complesso-erp-di-via-zanasi-60-70" target="_blank" class="prj-link">Sito Comune →</a>
+                                <a href="https://www.modenatoday.it/attualita/castelfranco-emilia-parton-lavori-rigenerazione-urbana-via-zanasi.html" target="_blank" class="prj-link">Articolo →</a>
+                            </div>
+                        </div>
+                        <div><img src="foto10.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">11 // Polo Bibliotecario Ex Frigo Bini (CSE)</span><span class="prj-badge">Rigenerazione</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Coordinatore della Sicurezza (D.Lgs. 81/08) per il Comune di Castelfranco Emilia (MO). Ampliamento del polo bibliotecario. L'edificio "Ex Frigorifero Bini" fa parte del complesso di archeologia industriale di fine '800 "Distilleria Vedova Bini".
+                            <span class="prj-cost">Importo: 1.320.000,00 €</span>
+                            <div class="prj-links"><a href="https://www.comune.castelfranco-emilia.mo.it/vivere-castelfranco-emilia/la-nostra-citta-si-trasforma/ex-frigo-bini" target="_blank" class="prj-link">Sito Comune →</a></div>
+                        </div>
+                        <div><img src="foto11.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">15 // Certificazione REI IREN</span><span class="prj-badge">Edilizia</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Certificazione di resistenza al fuoco "REI" degli elementi portanti presso il Centro di Stoccaggio e trattamento rifiuti di IREN Ambiente s.p.a., ai sensi del D.P.R. 01/08/2011 n. 151.</div>
+                        <div><img src="foto15.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">17 // Progettazione Strutturale Canile di Calcinato</span><span class="prj-badge">Edilizia</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Progettazione strutturale ed edilizia per la rilocalizzazione del canile nel comune di Calcinato (BS), opera connessa alla nuova linea AV/AC Torino-Venezia (tratta Brescia-Verona, codice OV06).</div>
+                        <div><img src="foto17.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <!-- INFRASTRUTTURE -->
+                <div class="cat-sep">Infrastrutture &amp; Viabilità</div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">02 // Marciapiedi Centro Storico (CSE-DL)</span><span class="prj-badge">Viabilità</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Coordinatore della Sicurezza e Direzione Lavori per il Comune di Pavullo nel Frignano (MO): riqualificazione e messa in sicurezza delle strade e piazze del centro urbano.
+                            <div class="prj-links"><a href="https://www.ilrestodelcarlino.it/modena/cronaca/centro-via-ai-lavori-di-riqualificazione-dei-marciapiedi-d02c0361" target="_blank" class="prj-link">Articolo →</a></div>
+                        </div>
+                        <div><img src="foto2.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">04 // Via Circondaria Nord e Sud (CSE)</span><span class="prj-badge">Viabilità</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Percorsi ciclabili in sede protetta, marciapiedi, attraversamenti e aree pedonali in sicurezza lungo le vie che delimitano il centro storico di Castelfranco Emilia.
+                            <span class="prj-cost">Importo: 775.000,00 €</span>
+                            <div class="prj-links"><a href="https://www.comune.castelfranco-emilia.mo.it/vivere-castelfranco-emilia/la-nostra-citta-si-trasforma/via-circondaria-nord-e-sud" target="_blank" class="prj-link">Sito Comune →</a></div>
+                        </div>
+                        <div><img src="foto4.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">05 // Rotatoria SS12 Via Emilia (CSE)</span><span class="prj-badge">Infrastrutture</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Coordinatore della Sicurezza (D.Lgs. 81/08) per il Comune di Ozzano dell'Emilia (BO) per la realizzazione della nuova rotatoria nell'intersezione tra Via Emilia, Via Mazzini e Via Ambiente.</div>
+                        <div><img src="foto5.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">07 // Seggiovia Stellaro–Rovinella (CSE)</span><span class="prj-badge">Infrastrutture</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Coordinatore della Sicurezza (D.Lgs. 81/08) per il Comune di Montecreto (MO) per i lavori relativi alla seggiovia biposto LM24 "Stellaro – Rovinella" e realizzazione della nuova linea elettrica.
+                            <div class="prj-links"><a href="https://www.gazzettadimodena.it/modena/cronaca/2026/06/19/news/revisione-completata-dopo-3-anni-riapre-la-seggiovia-di-montecreto-1.100885051" target="_blank" class="prj-link">Articolo →</a></div>
+                        </div>
+                        <div><img src="foto7.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">13 // Condotte Idriche HERA</span><span class="prj-badge">Infrastrutture</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Assistente al Coordinatore della Sicurezza e RDLC per interventi urgenti per conto di HERA S.p.A. Riparazione condotte idriche e fognarie, incluse condotte storiche in Cemento Amianto, nei comuni di Modena e Provincia.</div>
+                        <div><img src="foto13.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">14 // Reti Gas INRETE</span><span class="prj-badge">Infrastrutture</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Assistente al Coordinatore della Sicurezza e RDLC con incarico continuativo da maggio 2025. Pronto intervento per conto di INRETE Distribuzione Energia su reti gas naturale nei comuni di Modena e Provincia.</div>
+                        <div><img src="foto14.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">16 // Reti Idriche SORGEAQUA</span><span class="prj-badge">Infrastrutture</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Assistente al Coordinatore della Sicurezza per pronto intervento su condotte idriche per conto di SORGEAQUA nei Comuni di Finale Emilia, Nonantola, Ravarino, Crevalcore e Sant'Agata Bolognese.</div>
+                        <div><img src="foto16.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <!-- AMBIENTE -->
+                <div class="cat-sep">Ambiente &amp; Territorio</div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">03 // Giardini Pubblici Gildo Guerzoni (CSE)</span><span class="prj-badge">Ambiente</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Coordinatore della Sicurezza (D.Lgs. 81/08) per il Comune di Castelfranco Emilia (MO). Riqualificazione con rain garden, accessibilità pedonale e valorizzazione del Monumento ai Caduti.
+                            <span class="prj-cost">Importo: 250.000,00 €</span>
+                            <div class="prj-links">
+                                <a href="https://www.comune.castelfranco-emilia.mo.it/vivere-castelfranco-emilia/la-nostra-citta-si-trasforma/giardini-pubblici-gildo-guerzoni" target="_blank" class="prj-link">Sito Comune →</a>
+                                <a href="https://www.sassuolo2000.it/2023/10/25/castelfranco-emilia-restauro-del-monumento-ai-caduti-ai-giardini-pubblici-gildo-guerzoni/" target="_blank" class="prj-link">Articolo →</a>
+                            </div>
+                        </div>
+                        <div><img src="foto3.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">08 // Demolizione Area Ex Sinudyne (CSE)</span><span class="prj-badge">Territorio</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Coordinatore della Sicurezza (D.Lgs. 81/08) per i lavori di demolizione dell'area dell'ex sede della Sinudyne in via Emilia, Ozzano dell'Emilia.
+                            <div class="prj-links"><a href="https://www.sabatosera.it/2021/03/02/capannoni-ex-sinudyne-di-ozzano-demoliti-entro-2-mesi/" target="_blank" class="prj-link">Articolo →</a></div>
+                        </div>
+                        <div><img src="foto8.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">09 // Siti Naturali UNESCO per il Clima (CSE)</span><span class="prj-badge">Ambiente</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Coordinatore della Sicurezza per il Comune di Pavullo nel Frignano. Programma "Siti naturali UNESCO per il Clima" 2023: gestione selvicolturale (diradamenti e cure colturali) finalizzata alla prevenzione degli incendi.
+                            <div class="prj-links"><a href="https://www.gazzettadimodena.it/modena/cronaca/2026/02/27/news/parte-il-restyling-della-pineta-di-pavullo-60-pini-da-tagliare-ma-170-alberi-saranno-piantumati-1.100837964" target="_blank" class="prj-link">Articolo →</a></div>
+                        </div>
+                        <div><img src="foto9.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+                <div class="prj-item">
+                    <div class="prj-header" onclick="togglePrj(this)">
+                        <div class="prj-title-row"><span class="prj-name">12 // Area Verde Ex Case Operaie (CSE)</span><span class="prj-badge">Ambiente</span></div>
+                        <span class="prj-toggle">+</span>
+                    </div>
+                    <div class="prj-body"><div class="prj-inner">
+                        <div class="prj-text">Coordinatore della Sicurezza (D.Lgs. 81/08). Riqualificazione dell'area a verde con nuove piantumazioni, ampliamento area pavimentata e realizzazione di un pergolato. Area che ad inizio Novecento ospitava alloggi di edilizia residenziale pubblica.
+                            <span class="prj-cost">Importo: 350.000,00 €</span>
+                            <div class="prj-links"><a href="https://www.comune.castelfranco-emilia.mo.it/vivere-castelfranco-emilia/la-nostra-citta-si-trasforma/area-ex-case-operaie" target="_blank" class="prj-link">Sito Comune →</a></div>
+                        </div>
+                        <div><img src="foto12.jpg" alt="" class="prj-img"></div>
+                    </div></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- NAV -->
+<nav class="nav-fixed">
+    <span class="nav-hint" id="navHint">Scorri →</span>
+    <div class="nav-dots">
+        <span class="nav-dot on" onclick="go(0)">00</span>
+        <span class="nav-dot" onclick="go(1)">01</span>
+        <span class="nav-dot" onclick="go(2)">02</span>
+        <span class="nav-dot" onclick="go(3)">03</span>
+        <span class="nav-dot" onclick="go(4)">04</span>
     </div>
+</nav>
 
-    <div class="toast-system" id="toast">// COPIATO</div>
+<div class="toast" id="toast"></div>
 
-    <script>
-        let currentPage = 0;
-        const totalPages = 5;
-        const deck = document.getElementById('mainDeck');
-        const pages = document.querySelectorAll('.web-page');
-        const numbers = document.querySelectorAll('.nav-num');
-        const scrollTag = document.getElementById('scrollTag');
-        let isScrolling = false;
+<script>
+    // ── COOKIE ──
+    const COOKIE_KEY = 'bnd_analytics_consent';
 
-        function updateDeck() {
-            deck.style.transform = `translateX(-${currentPage * 100}vw)`;
-            
-            pages.forEach((p, idx) => {
-                if(idx === currentPage) p.classList.add('active');
-                else p.classList.remove('active');
-            });
+    function getCookie(name) {
+        return document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith(name + '='))?.split('=')[1];
+    }
+    function setCookie(name, value, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + days * 864e5);
+        document.cookie = name + '=' + value + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+    }
 
-            numbers.forEach((n, idx) => {
-                if(idx === currentPage) n.classList.add('active');
-                else n.classList.remove('active');
-            });
+    function cookieChoice(accepted) {
+        setCookie(COOKIE_KEY, accepted ? 'yes' : 'no', 365);
+        document.getElementById('cookie-banner').style.display = 'none';
+        if (accepted) loadGA();
+    }
 
-            if (currentPage === 0) scrollTag.innerText = "Scorri per info \u2192";
-            else if (currentPage === totalPages - 1) scrollTag.innerText = "\u2190 Indietro";
-            else scrollTag.innerText = "Scorri \u2194";
+    // Controlla consenso precedente
+    (function() {
+        const consent = getCookie(COOKIE_KEY);
+        if (consent === 'yes') {
+            document.getElementById('cookie-banner').style.display = 'none';
+            loadGA();
+        } else if (consent === 'no') {
+            document.getElementById('cookie-banner').style.display = 'none';
         }
+        // se non c'è consenso, il banner rimane visibile
+    })();
 
-        function jumpToPage(index) {
-            currentPage = index;
-            updateDeck();
+    // ── NAVIGAZIONE ──
+    let cur = 0;
+    const total = 5;
+    const deck = document.getElementById('deck');
+    const panels = document.querySelectorAll('.panel');
+    const dots = document.querySelectorAll('.nav-dot');
+    const hint = document.getElementById('navHint');
+    let busy = false;
+
+    function go(idx) {
+        cur = Math.max(0, Math.min(total - 1, idx));
+        deck.style.transform = `translateX(-${cur * 100}vw)`;
+        panels.forEach((p, i) => p.classList.toggle('active', i === cur));
+        dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+        hint.textContent = cur === 0 ? 'Scorri →' : cur === total - 1 ? '← Indietro' : '← Scorri →';
+    }
+
+    window.addEventListener('wheel', e => {
+        if (cur === 4) {
+            const sc = document.getElementById('projectsScroll');
+            if (e.deltaY > 0 && sc.scrollTop + sc.clientHeight < sc.scrollHeight - 2) return;
+            if (e.deltaY < 0 && sc.scrollTop > 0) return;
         }
+        if (busy) return;
+        busy = true;
+        go(e.deltaY > 0 ? cur + 1 : cur - 1);
+        setTimeout(() => busy = false, 700);
+    }, { passive: true });
 
-        window.addEventListener('wheel', (e) => {
-            if (isScrolling) return;
-            isScrolling = true;
-            
-            if (e.deltaY > 0 && currentPage < totalPages - 1) {
-                currentPage++;
-            } else if (e.deltaY < 0 && currentPage > 0) {
-                currentPage--;
-            }
-            
-            updateDeck();
-            setTimeout(() => { isScrolling = false; }, 600);
+    let tx = 0;
+    window.addEventListener('touchstart', e => tx = e.changedTouches[0].screenX, { passive: true });
+    window.addEventListener('touchend', e => {
+        const dx = tx - e.changedTouches[0].screenX;
+        if (Math.abs(dx) > 50) go(dx > 0 ? cur + 1 : cur - 1);
+    });
+
+    function togglePrj(el) {
+        const item = el.parentElement;
+        const body = item.querySelector('.prj-body');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.prj-item.open').forEach(i => {
+            i.classList.remove('open');
+            i.querySelector('.prj-body').style.maxHeight = '0';
         });
-
-        let touchStartX = 0;
-        window.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-        window.addEventListener('touchend', e => {
-            let touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 50 && currentPage < totalPages - 1) {
-                currentPage++;
-                updateDeck();
-            } else if (touchEndX - touchStartX > 50 && currentPage > 0) {
-                currentPage--;
-                updateDeck();
-            }
-        });
-
-        function copyData(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                const toast = document.getElementById('toast');
-                toast.innerText = "// COPIATO";
-                toast.classList.add('show');
-                setTimeout(() => { toast.classList.remove('show'); }, 1400);
-            });
+        if (!isOpen) {
+            item.classList.add('open');
+            body.style.maxHeight = body.scrollHeight + 'px';
         }
+    }
 
-        function downloadVCard() {
-            const vcardData = [
-                "BEGIN:VCARD",
-                "VERSION:3.0",
-                "ORG:Benedetti Ingegneria S.r.l. Unipersonale",
-                "FN:Benedetti Ingegneria",
-                "TEL;TYPE=CELL,VOICE:3342770925",
-                "EMAIL;TYPE=PREF,INTERNET:info@Benedetti-Ingegneria.it",
-                "EMAIL;TYPE=INTERNET:Benedettiingegneriasrl@Lapam.Legalmail.it",
-                "ADR;TYPE=WORK,POSTAL,PARCEL:;;Vicolo del Bago 2;Pavullo nel Frignano;MO;41026;Italia",
-                "NOTE:P.IVA: IT04263840367 - REA: MO 456314 - SDI: xmxaup4",
-                "END:VCARD"
-            ].join("\r\n");
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 1600);
+    }
 
-            const blob = new Blob([vcardData], { type: "text/vcard;charset=utf-8" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "Benedetti_Ingegneria.vcf";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+    function downloadVCard() {
+        const data = [
+            'BEGIN:VCARD','VERSION:3.0',
+            'ORG:Benedetti Ingegneria S.r.l. Unipersonale',
+            'FN:Benedetti Ingegneria',
+            'TEL;TYPE=CELL,VOICE:3342770925',
+            'EMAIL;TYPE=PREF,INTERNET:info@Benedetti-Ingegneria.it',
+            'EMAIL;TYPE=INTERNET:Benedettiingegneriasrl@Lapam.Legalmail.it',
+            'ADR;TYPE=WORK:;;Vicolo del Bago 2;Pavullo nel Frignano;MO;41026;Italia',
+            'NOTE:P.IVA: IT04263840367 - REA: MO 456314 - SDI: xmxaup4',
+            'END:VCARD'
+        ].join('\r\n');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([data], { type: 'text/vcard;charset=utf-8' }));
+        a.download = 'Benedetti_Ingegneria.vcf';
+        a.click();
+        showToast('// VCF scaricato');
+    }
 
-        function sendNewsletterRequest() {
-            const emailInput = document.getElementById('subscriberEmail');
-            const email = emailInput.value.trim();
-            
-            if (!email || !email.includes('@')) {
-                const toast = document.getElementById('toast');
-                toast.innerText = "// INSERIRE EMAIL VALIDA";
-                toast.classList.add('show');
-                setTimeout(() => { toast.classList.remove('show'); }, 2000);
-                return;
-            }
-
-            const subject = encodeURIComponent("Iscrizione Newsletter - Benedetti Ingegneria");
-            const body = encodeURIComponent(`Richiesta di iscrizione al servizio aggiornamenti per l'indirizzo: ${email}`);
-            
-            window.location.href = `mailto:info@Benedetti-Ingegneria.it?subject=${subject}&body=${body}`;
-        }
-    </script>
-
+    function sendNL() {
+        const email = document.getElementById('nlEmail').value.trim();
+        if (!email || !email.includes('@')) { showToast('// Email non valida'); return; }
+        const sub = encodeURIComponent('Iscrizione Newsletter - Benedetti Ingegneria');
+        const body = encodeURIComponent(`Richiesta di iscrizione per: ${email}`);
+        window.location.href = `mailto:info@Benedetti-Ingegneria.it?subject=${sub}&body=${body}`;
+    }
+</script>
 </body>
 </html>
